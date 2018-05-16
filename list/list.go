@@ -1,31 +1,53 @@
 package list
 
-type List struct {
+type cell struct {
 	val  int
-	next *List
-	prev *List
+	next *cell
+	prev *cell
 }
 
-func GoBegin(l *List) *List {
-	for l.prev != nil {
-		l = l.prev
+type List struct {
+	*cell
+}
+
+func (l *List)GoBegin() *List {
+	if l.cell == nil  {
+		return l
+	}
+	for l.cell.prev != nil {
+		l.cell = l.cell.prev
 	}
 	return l
 }
 
-func AddBegin(l *List, x int) {
-	node := &List{x, nil, nil}
-	l = GoBegin(l)
-	l.prev = node
-	node.next = l
+func (l *List)AddEnd(x int) {
+	node := &cell{x, nil, nil}
+	for l.cell.next != nil {
+		l.cell = l.cell.next
+	}
+	l.cell.next = node
+	node.prev = l.cell
 }
 
-func Length(l *List) uint {
-	l = GoBegin(l)
+func (l *List)AddBegin(x int) {
+	node := &cell{x, nil, nil}
+	l = l.GoBegin()
+	if l.cell != nil {
+		l.cell.prev = node
+		node.next = l.cell
+	} else {
+		l.cell = node
+	}
+}
 
+func (l *List)Length() uint {
+	if l.cell == nil {
+		return 0
+	}
+	l = l.GoBegin()
 	var x uint = 1
-	for ; l.next != nil; x++ {
-		l = l.next
+	for ; l.cell.next != nil; x++ {
+		l.cell = l.cell.next
 	}
 	return x
 

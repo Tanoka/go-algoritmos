@@ -1,59 +1,25 @@
-package list
+package list_test
 
 import "testing"
+import "github.com/tanoka/go-algoritmos/list"
 
-func TestGoBegin(t *testing.T) {
-	li1 := List{1, nil, nil}
-	li2 := List{2, nil, nil}
-	li3 := List{3, nil, nil}
+func TestLengthEmpty(t *testing.T) {
+	li := list.List{}
 
-	li1.next = &li2
-	li2.prev = &li1
-	li2.next = &li3
-	li3.prev = &li2
-
-	bgn := GoBegin(&li3)
-
-	if bgn.val != 1 {
-		t.Errorf("Expected:1, Actual:%d", bgn.val)
-	}
-}
-
-func TestLength(t *testing.T) {
-	li1 := List{1, nil, nil}
-	li2 := List{2, nil, nil}
-	li3 := List{3, nil, nil}
-	li4 := List{4, nil, nil}
-
-	li1.next = &li2
-	li2.prev = &li1
-	li2.next = &li3
-	li3.prev = &li2
-	li3.next = &li4
-	li4.prev = &li3
-
-	cnt := Length(&li2)
-
-	if cnt != 4 {
-		t.Errorf("Expected:5, Actual:%d", cnt)
+	if li.Length() != 0 {
+		t.Errorf("Expected:0, Actual:%d", li.Length())
 	}
 }
 
 func TestAddBegin(t *testing.T) {
-	li := &List{1, nil, nil}
+	li := list.List{}
 
-	AddBegin(li, 2)
-	AddBegin(li, 3)
-	AddBegin(li, 4)
+	li.AddBegin(1)
+	li.AddBegin(2)
+	li.AddBegin(3)
 
-	li = GoBegin(li)
-
-	var x = 4
-	for li.next != nil {
-		if li.val != x {
-			t.Errorf("Expected:%d, Actual:%d", x, li.val)
-		}
-		li = li.next
-		x--
-	}
+        if li.Length() != 3 {
+                t.Errorf("Expected:3, Actual:%d", li.Length())
+        }
 }
+
