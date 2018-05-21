@@ -12,11 +12,11 @@ func TestGoBegin(t *testing.T) {
 	ce2.next = &ce3
 	ce3.prev = &ce2
 
-	li := List{&ce3}
-	bgn := li.GoBegin()
+	li := List{&ce3, 3, &ce1, &ce3}
+	li.GoBegin()
 
-	if bgn.val != 1 {
-		t.Errorf("Expected:1, Actual:%d", bgn.val)
+	if li.cell.Val != 1 {
+		t.Errorf("Expected:1, Actual:%d", li.cell.Val)
 	}
 }
 
@@ -27,8 +27,6 @@ func TestLengthEmpty(t *testing.T) {
 		t.Errorf("Expected:0, Actual:%d", li.Length())
 	}
 }
-
-
 
 func TestLength(t *testing.T) {
 	ci1 := cell{1, nil, nil}
@@ -43,33 +41,11 @@ func TestLength(t *testing.T) {
 	ci3.next = &ci4
 	ci4.prev = &ci3
 
-	li := List{&ci2}
+	li := List{&ci2, 4, &ci1, &ci4}
 
 	cnt := li.Length()
 
 	if cnt != 4 {
 		t.Errorf("Expected:5, Actual:%d", cnt)
-	}
-}
-
-func TestAddBegin(t *testing.T) {
-	li := List{&cell{1, nil, nil}}
-
-	li.AddBegin(2)
-	li.AddBegin(3)
-	li.AddBegin(4)
-
-	li.GoBegin()
-
-	var x = 4
-	for li.cell.next != nil {
-		if li.cell.val != x {
-			t.Errorf("Expected:%d, Actual:%d", x, li.val)
-		}
-		li.cell = li.cell.next
-		x--
-	}
-	if x != 1 {
-		t.Errorf("Expected:1, Actual:%d", x)
 	}
 }
